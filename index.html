@@ -69,7 +69,7 @@ body{height:100dvh;box-sizing:border-box}
 <div class="btns"><button class="sub" id="exportimg">📷 画像を書き出し</button><button class="sub" id="shareimg">⬆️共有</button></div>
 <div class="btns"><button class="sub" id="undo" disabled>ひとつ戻る</button><button class="sub" id="redo" disabled>ひとつ進む</button></div>
 <div class="btns"><button class="sub" id="lastreset" disabled>最後にさわった部分をリセット</button></div>
-<div id="expov" style="display:none;position:fixed;inset:0;background:rgba(20,30,36,.72);z-index:60;align-items:center;justify-content:center;flex-direction:column;gap:10px;padding:16px;box-sizing:border-box">
+<div id="expov" style="display:none;position:fixed;inset:0;background:#141e24;z-index:2000;align-items:center;justify-content:center;flex-direction:column;gap:10px;padding:16px;box-sizing:border-box">
 <img id="expimg" style="max-width:100%;max-height:68%;border-radius:10px" alt="書き出した画像">
 <div style="color:#fff;font-size:13px">画像を長押しすると保存できます</div>
 <div style="display:flex;gap:8px">
@@ -4212,7 +4212,7 @@ document.querySelectorAll('.handb').forEach(b=>b.onclick=()=>{handShape[b.datase
  document.querySelectorAll('.handb').forEach(x=>{if(x.dataset.hand===b.dataset.hand)x.classList.toggle('on',x===b)});savePose();render();});
 try{const d=JSON.parse(localStorage.getItem(SKEY));if(d&&d.H){for(const k of ['R','L'])if(['fist','point','open'].includes(d.H[k]))handShape[k]=d.H[k];document.querySelectorAll('.handb').forEach(x=>x.classList.toggle('on',x.dataset.shape===handShape[x.dataset.hand]));}}catch(e){}
 function poseFileName(){const now=new Date(),pd=n=>String(n).padStart(2,'0');
- return 'rig-pose-'+now.getFullYear()+pd(now.getMonth()+1)+pd(now.getDate())+'-'+pd(now.getHours())+pd(now.getMinutes())+pd(now.getSeconds())+'.png'}
+ return 'rig-pose-'+now.getFullYear()+pd(now.getMonth()+1)+pd(now.getDate())+'-'+pd(now.getHours())+pd(now.getMinutes())+pd(now.getSeconds())+'.jpg'}
 function showPosePreview(b){const url=URL.createObjectURL(b);
  document.getElementById('expimg').src=url;
  const dl=document.getElementById('expdl');dl.href=url;dl.download=poseFileName();
@@ -4302,11 +4302,11 @@ function grabPoseCanvas(done){
   im.src=url;
  }
 }
-function exportPoseImage(){grabPoseCanvas(out=>{if(out&&out.toBlob)out.toBlob(b=>{if(b)showPosePreview(b)},'image/png')})}
+function exportPoseImage(){grabPoseCanvas(out=>{if(out&&out.toBlob)out.toBlob(b=>{if(b)showPosePreview(b)},'image/jpeg',0.9)})}
 function sharePoseImage(){grabPoseCanvas(out=>{if(!out||!out.toBlob)return;out.toBlob(async b=>{if(!b)return;
- const file=new File([b],poseFileName(),{type:'image/png'});
+ const file=new File([b],poseFileName(),{type:'image/jpeg'});
  if(navigator.canShare&&navigator.canShare({files:[file]})){try{await navigator.share({files:[file]});return}catch(e){if(e&&e.name==='AbortError')return}}
- showPosePreview(b)},'image/png')})}
+ showPosePreview(b)},'image/jpeg',0.9)})}
 document.getElementById('exportimg').onclick=exportPoseImage;
 document.getElementById('shareimg').onclick=sharePoseImage;
 document.getElementById('expx').onclick=()=>{document.getElementById('expov').style.display='none';};
@@ -4700,7 +4700,7 @@ document.getElementById('rigtoggle').onclick=function(){RIG=!RIG;ACTIVE=null;thi
    if(it.fsb){if(big&&it.fsb.parentNode!==it.bar)it.bar.appendChild(it.fsb);if(!big&&it.fsb.parentNode!==it.stage)it.stage.appendChild(it.fsb);}
   }
   const ov=document.getElementById('expov');
-  if(ov)ov.style.zIndex=anyBig?'2000':'';
+  if(ov)ov.style.zIndex='2000';
  }
  const mo=new MutationObserver(sync);
  for(const pr of bars[0].pairs)mo.observe(pr[1],{attributes:true,attributeFilter:['class','disabled'],childList:true,characterData:true,subtree:true});
