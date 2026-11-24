@@ -111,7 +111,7 @@ window.addEventListener('DOMContentLoaded',()=>applyLang());
 const L={waist:42,chest:43,head:28,shN:10,elbowN:48,wristN:45,fingerN:18,shF:10,elbowF:48,wristF:45,fingerF:18,hpN:0,kneeN:62,ankleN:60,toeN:22,toeTipN:16,hpF:0,kneeF:62,ankleF:60,toeF:22,toeTipF:16};
 const P={waist:'hip',chest:'waist',head:'chest',shN:'chest',elbowN:'shN',wristN:'elbowN',fingerN:'wristN',shF:'chest',elbowF:'shF',wristF:'elbowF',fingerF:'wristF',hpN:'hip',kneeN:'hpN',ankleN:'kneeN',toeN:'ankleN',toeTipN:'toeN',hpF:'hip',kneeF:'hpF',ankleF:'kneeF',toeF:'ankleF',toeTipF:'toeF'};
 const N=Object.keys(L);
-const STAND={waist:-90,chest:-90,head:-90,shN:-90,elbowN:90,wristN:90,fingerN:90,shF:-90,elbowF:90,wristF:90,fingerF:90,hpN:0,kneeN:90,ankleN:90,toeN:0,toeTipN:0,hpF:0,kneeF:90,ankleF:90,toeF:0,toeTipF:0};
+const STAND={waist:-90,chest:-90,head:-75.5,shN:-90,elbowN:90,wristN:90,fingerN:90,shF:-90,elbowF:90,wristF:90,fingerF:90,hpN:0,kneeN:90,ankleN:90,toeN:0,toeTipN:0,hpF:0,kneeF:90,ankleF:90,toeF:0,toeTipF:0};
 const LAT={shN:-20,shF:20,elbowN:-24,wristN:-26,fingerN:-26,elbowF:24,wristF:26,fingerF:26,hpN:-12,kneeN:-12,ankleN:-12,toeN:-12,toeTipN:-12,hpF:12,kneeF:12,ankleF:12,toeF:12,toeTipF:12};
 const rad=d=>d*Math.PI/180;
 function build(a,hip){const J={hip:{x:hip.x,y:hip.y,z:hip.z||0}};for(const n of N){const p=J[P[n]];J[n]={x:p.x+L[n]*Math.cos(rad(a[n])),y:p.y+L[n]*Math.sin(rad(a[n])),z:(hip.z||0)+(LAT[n]||0)};}return J;}
@@ -4409,7 +4409,7 @@ function poseFromJ(sk){
   const axT=W3(J.chest).sub(W3(J.waist)).normalize();
   if(waistYaw)applyYaw(B.spine1,axT,waistYaw);
   if(chestYaw)applyYaw(B.spine2,axT,chestYaw);
-  if(neckYaw)applyYaw(B.neck,W3(J.head).sub(W3(J.chest)).normalize(),neckYaw);
+  if(neckYaw)applyYaw(B.neck,axT,neckYaw);
  }
  for(const tb of [[B.handR,'elbowN','wristN','R'],[B.handL,'elbowF','wristF','L']]){
   const bone=tb[0],tw=wristTwist[tb[3]];if(!tw||!bone)continue;
